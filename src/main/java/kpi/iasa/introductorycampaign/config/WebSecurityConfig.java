@@ -1,6 +1,7 @@
 package kpi.iasa.introductorycampaign.config;
 
 
+import kpi.iasa.introductorycampaign.domain.Role;
 import kpi.iasa.introductorycampaign.service.UserService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 
 @Configuration
@@ -20,17 +22,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserService userService;
 
+    private AuthenticationSuccessHandler authenticationSuccessHandler;
+
+    @Autowired
+    public WebSecurityConfig(AuthenticationSuccessHandler authenticationSuccessHandler) {
+        this.authenticationSuccessHandler = authenticationSuccessHandler;
+    }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                     .authorizeRequests()
                     .antMatchers("/","/registration")
                     .permitAll()
+                 //   .antMatchers("/admin").hasRole("ADMIN")
+                   // .antMatchers("/student").hasRole("STUDENT")
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()
                     .loginPage("/login")
+                    .successHandler(authenticationSuccessHandler)
                     .permitAll()
+                .and()
+                    .exceptionHandling().accessDeniedPage("/accessDenied")
                 .and()
                     .logout()
                     .permitAll();

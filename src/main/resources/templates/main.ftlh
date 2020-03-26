@@ -1,11 +1,10 @@
 <#import "parts/common.ftlh" as c>
+<#import "parts/login.ftlh" as l>
 <@c.page>
 
 
     <p>${springMacroRequestContext.getMessage("greeting")}</p>
-
-<a href="/access">To logind page</a>
-
+    <@l.logout/>
 
 <#--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
 <#--    <script type="text/javascript">-->

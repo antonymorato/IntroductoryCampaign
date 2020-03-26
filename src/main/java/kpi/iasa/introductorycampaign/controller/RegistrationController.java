@@ -11,9 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 @Controller
 public class RegistrationController {
@@ -28,17 +30,24 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String addUser(User user, Map<String,Object> model)
+    public String addUser(@RequestParam("role") String role ,User user, Map<String,Object> model)
     {
-      //  User userFromDB= (User) userService.loadUserByUsername(user.getUsername());
+        User userFromDB= (User) userService.loadUserByUsername(user.getUsername());
      //
+        if (userFromDB!=null)
+        {
+            model.put("message","User exists");
+            return "registration";
+        }
         System.out.println("Username:"+user.getUsername()+" Pass:"+user.getPassword());
-    if (user==null)
-        System.out.println("wtf");
-    else
-        System.out.println("ok");
+
+        if (role.equals(Role.ADMIN.toString()))
+            user.setRoles(Collections.singleton(Role.ADMIN));
+        if (role.equals(Role.STUDENT.toString()))
+            user.setRoles(Collections.singleton(Role.STUDENT));
         user.setActive(true);
-        user.setRoles(Collections.singleton(Role.ADMIN));
+
+
         userService.addUser(user);
 
         return "redirect:/login";

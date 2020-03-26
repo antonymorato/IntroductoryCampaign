@@ -11,16 +11,15 @@ import java.util.Map;
 
 
 @Controller
-@RequestMapping("/student")
+@RequestMapping("/admin")
 @PreAuthorize("hasAuthority('ADMIN')")
 public class AdminController {
 
 
     @GetMapping
-    public String main(Model model)
+    public String main()
     {
-        model.addAttribute("students");
-        return "student";
+        return "adminPage";
     }
 
     @GetMapping("{student}")

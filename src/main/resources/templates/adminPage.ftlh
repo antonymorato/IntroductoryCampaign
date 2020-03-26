@@ -2,6 +2,12 @@
 <#import "parts/login.ftlh" as l>
 
 <@c.page>
-    <p>Something here</p>
+    <p>Admin page</p>
     <@l.logout/>
+
+
+
+
+
+
 </@c.page>
