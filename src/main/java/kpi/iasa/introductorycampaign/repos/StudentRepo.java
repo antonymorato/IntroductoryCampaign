@@ -5,10 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface StudentRepo extends JpaRepository<Long, Student> {
+public interface StudentRepo extends JpaRepository<Student,Long> {
 
-List<Student> getAll();
-Student getById(Long id);
+//List<Student> getAll();
+//Student getById(Long id);
 
 
 }

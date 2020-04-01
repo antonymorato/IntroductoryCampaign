@@ -1,6 +1,7 @@
 package kpi.iasa.introductorycampaign.controller;
 
 
+import kpi.iasa.introductorycampaign.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -15,10 +16,15 @@ import java.util.Map;
 @PreAuthorize("hasAuthority('ADMIN')")
 public class AdminController {
 
+    @Autowired
+    StudentService studentService;
 
     @GetMapping
-    public String main()
+    public String main(Map<String,Object> model)
+
     {
+        model.put("students",studentService.getAll());
+
         return "adminPage";
     }
 
